@@ -1,4 +1,8 @@
-# 1setpsomething
-inspired by 9stepsawsome, this is my kubernetes learning path
+# 1 step something
 
-https://www.marksei.com/minikube-kubernetes-windows/
+Inspired by 9 steps [awesome][1], this is my kubernetes learning path
+
+
+<!-- Keep this at the end -->
+[1]: https://github.com/burrsutter/9stepsawesome
+
