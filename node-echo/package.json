@@ -1,0 +1,13 @@
+{
+  "name": "echo",
+  "version": "1.0.0",
+  "description": "http server that prints an echo on each reply",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
