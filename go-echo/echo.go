@@ -14,7 +14,7 @@ func version(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	
+
 	http.HandleFunc("/", version)
 	http.HandleFunc("/version", version)
 

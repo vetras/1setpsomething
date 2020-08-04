@@ -1,14 +1,11 @@
 #
-# source: https://blog.golang.org/docker
+# source: https://golangdocs.com/golang-docker
 #
+FROM golang:1.14-alpine
 
-FROM golang
+RUN mkdir /app
+COPY . /app
+WORKDIR /app
+RUN go build -o echo .
 
-#RUN mkdir -p ./src/echo/
-COPY ./echo.go ./src/echo/echo.go
-
-RUN go build echo
-
-ENTRYPOINT echo
-
-EXPOSE 8000
+CMD [ "/app/echo" ]

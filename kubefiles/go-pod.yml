@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: echo-go
+spec:
+  containers:
+  - name: echo-go
+    image: 25friday.azurecr.io/echo-go:v1
