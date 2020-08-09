@@ -2,7 +2,14 @@
 
 # Step 1 - Setup
 
-Create a kubernetes cluster on azure.
+Make sure you have the following software installed:
+ - homebrew
+ - git
+ - docker
+ - azure-cli
+ - kubectl
+ - curl
+ - bonus: watch, zsh with k8s auto-complete
 
 Install az cli: `brew install azure-cli`
 
@@ -19,7 +26,7 @@ Now we can list stuff:
     kubectl get pods
 
 
-# Step 2 - Services
+# Step 2 - Our App
 
 Build the docker images and tag them with versions:
 
@@ -34,7 +41,7 @@ Build the docker images and tag them with versions:
     curl localhost:8081/version
     curl localhost:8082/version
 
-# Step 3 - Docker Registry
+# Step 3 - Docker Images
 
 When we create the  azure kubernetes cluster it creates a docker registry for us.
 
@@ -93,17 +100,16 @@ So we need to:
     kubectl create secret docker-registry acr-pull-for-namespace-demo \
     --namespace demo \
     --docker-server=25friday.azurecr.io \
-    --docker-username=foo \
-    --docker-password=bar
+    --docker-username=4f3a1225-b670-421c-9659-61881d21c025 \
+    --docker-password=L1UCtOGXg~OjcUpleZnPYtkVWZnEw3pho5
     # note to self: credentials are stored on my password manager
 
 Finally it works:
 
     kubectl logs echo-go
 
-Now, repeat to create the for the node pod.
+Now, repeat to create the for the node Pod.
 
-TODO: how to get urls/ip to access the pods ??
 
 ## Bonus
 
@@ -113,15 +119,77 @@ kubectl `create` vs `apply`:
  * both work.
 `apply` is incremental and will try to update the resource.
 `create` will error if it exists instead
+ * both are valid approaches, but we will use `apply` from now on
 
 ## Kubernetes Dashboard
+
+# WIP: this is not working yet, i still get access denied
 
 Accessing the web interface of the kubernetes instance:
 
     az aks browse --resource-group 1step-something  --name mr-fields
     cat ~/.kube/config
     # copy paste the token at the end and use that for login on the dashboard
-    # WIP: this is not working yet, i still get access denied
 
+# Step 4 Deployments
 
-# Step Replica Set ?? or deployments ??
+A Deployment provides declarative updates for Pods ReplicaSets.
+
+You describe a desired state in a Deployment, and the Deployment Controller changes the actual state to the desired state at a controlled rate.
+You can define Deployments to create new ReplicaSets, or to remove existing Deployments and adopt all their resources with new Deployments.
+
+Create our deployment:
+
+    k apply -f kubefiles/demo-deployment-v1.yml
+
+Play with it:
+
+ * `kubectl describe deployment demo-deployment`
+
+    Notice the: `StrategyType:           RollingUpdate`
+
+    Can also be `Recreate`.
+ * change the number of replicas
+   * whats did you expect?
+   * what did happen?
+ * views logs of one container
+
+To clean it up:
+
+    k delete deployment demo-deployment
+
+# Step 5 Network
+
+A service is an abstract way to expose an application running on a set of Pods as a network.
+
+    kubectl apply -f kubefiles/demo-service.yml
+    kubectl get services
+    curl http://20.50.103.25:80
+
+# Step 6 Update / Rollback
+
+First lets create a new version of our app by repeating the steps above to publish a v2 docker image.
+Then, we can edit the deployment yaml and `kubectl apply` the file again.
+Thats it!
+
+Things to monitor:
+
+    watch kubectl get pods
+    # see each Pod is replaced without downtime
+
+# Next Steps
+
+A lot that we have not covered:
+
+ - DBs
+ - environments
+ - configuration files
+ - monitoring
+ - metrics
+ - auto scaling
+ - etc
+
+ #####################
+WIP:
+
+  -- como configurar que docker imgs vao em que replica set
