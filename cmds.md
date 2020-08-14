@@ -1,4 +1,11 @@
-# What I've done
+# Agenda
+
+Present an overview of what we are going to do.
+Explain a bit of kubernetes architecture:
+  - nodes
+  - state is kept in kubernetes objects
+  - kubernetes API and client
+
 
 # Step 1 - Setup
 
@@ -43,7 +50,7 @@ Build the docker images and tag them with versions:
 
 # Step 3 - Docker Images
 
-When we create the  azure kubernetes cluster it creates a docker registry for us.
+When we create the azure kubernetes cluster it creates a docker registry for us.
 
 From the web UI we can get the credentials to login:
 
@@ -121,15 +128,9 @@ kubectl `create` vs `apply`:
 `create` will error if it exists instead
  * both are valid approaches, but we will use `apply` from now on
 
-## Kubernetes Dashboard
+Mention the kubernetes dashboard exists:
+ * https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
 
-# WIP: this is not working yet, i still get access denied
-
-Accessing the web interface of the kubernetes instance:
-
-    az aks browse --resource-group 1step-something  --name mr-fields
-    cat ~/.kube/config
-    # copy paste the token at the end and use that for login on the dashboard
 
 # Step 4 Deployments
 
@@ -188,8 +189,3 @@ A lot that we have not covered:
  - metrics
  - auto scaling
  - etc
-
- #####################
-WIP:
-
-  -- como configurar que docker imgs vao em que replica set
