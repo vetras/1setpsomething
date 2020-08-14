@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: 25-echos
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
+      name: echo-go
+    - protocol: TCP
+      port: 81
+      targetPort: 8001
+      name: echo-node

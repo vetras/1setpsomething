@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: 25-echos
+  template:
+    metadata:
+      labels:
+        app: 25-echos
+        env: dev
+    spec:
+      imagePullSecrets:
+        - name: acr-pull-for-namespace-demo
+      containers:
+      - name: echo-go
+        image: 25friday.azurecr.io/echo-go:v2
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+      - name: echo-node
+        image: 25friday.azurecr.io/echo-node:v1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8001
+
