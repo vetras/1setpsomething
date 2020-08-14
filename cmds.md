@@ -114,6 +114,7 @@ So we need to:
 Finally it works:
 
     kubectl logs echo-go
+    kubectl top pod
 
 Now, repeat to create the for the node Pod.
 
@@ -130,6 +131,17 @@ kubectl `create` vs `apply`:
 
 Mention the kubernetes dashboard exists:
  * https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
+
+## Step 3.1 Testing HTTP endpoints
+
+There is a simple trick to expose a given pod on localhost:
+
+    kubectl port-forward echo-go 8000:8000
+
+Then, we can curl or open the browser on `http://localhost:8000/` and there is our HTTP endpoint!
+
+Note that if the pod restarts, the port forward is lost.
+Also, once we terminate the command exits the http proxy is terminated.
 
 
 # Step 4 Deployments
@@ -176,6 +188,8 @@ Thats it!
 Things to monitor:
 
     watch kubectl get pods
+    # or
+    kubectl get pods -w
     # see each Pod is replaced without downtime
 
 # Next Steps
@@ -188,4 +202,5 @@ A lot that we have not covered:
  - monitoring
  - metrics
  - auto scaling
+ - limit pod resource usage
  - etc
